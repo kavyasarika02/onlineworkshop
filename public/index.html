@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Workshop Platform – Cyberpunk Red</title>
+
+    <style>
+        /* GLOBAL */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #1a0000, #000000 60%);
+            color: #ffcccc;
+        }
+
+        /* HEADER */
+        header {
+            background: #0d0000;
+            padding: 25px;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #ff0033;
+            text-shadow: 0 0 15px #ff0033, 0 0 35px #ff1a40;
+            border-bottom: 2px solid rgba(255, 0, 51, 0.4);
+        }
+
+        /* NAV BAR */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 15px;
+            background: #140000;
+            border-bottom: 1px solid rgba(255, 0, 51, 0.2);
+        }
+
+        nav a {
+            color: #ff0033;
+            text-shadow: 0 0 8px #ff0033;
+            text-decoration: none;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff4d6d;
+            text-shadow: 0 0 18px #ff4d6d;
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 85%;
+            max-width: 950px;
+            padding: 25px;
+            margin: 35px auto;
+            background: rgba(40, 0, 0, 0.45);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 0, 51, 0.3);
+            box-shadow: 0 0 25px rgba(255, 0, 51, 0.22);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #ff1a40;
+            text-shadow: 0 0 15px #ff1a40;
+            margin-bottom: 12px;
+        }
+
+        /* INPUTS */
+        input, textarea {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 6px;
+            background: #1a0000;
+            color: #ff99aa;
+            border: 1px solid rgba(255, 0, 51, 0.4);
+            outline: none;
+            font-size: 15px;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #ff0033;
+            box-shadow: 0 0 15px #ff0033;
+        }
+
+        /* CYBERPUNK 3D BUTTON */
+        .cyber-btn {
+            position: relative;
+            display: inline-block;
+            padding: 14px 28px;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ff1a40;
+            background: #1a0000;
+            border: 2px solid #ff0033;
+            border-radius: 8px;
+            text-shadow: 0 0 8px #ff1a40;
+            box-shadow:
+                0 0 12px #ff0033,
+                inset 0 0 15px rgba(255, 0, 51, 0.3);
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+        }
+
+        .cyber-btn:hover {
+            color: white;
+            background: #ff0033;
+            box-shadow:
+                0 0 20px #ff0033,
+                0 0 40px #ff1a40,
+                inset 0 0 20px rgba(255, 0, 51, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .cyber-btn:active {
+            transform: translateY(3px);
+            box-shadow:
+                0 0 10px #ff0033,
+                inset 0 0 10px rgba(255, 0, 51, 0.3);
+        }
+
+        /* WORKSHOP CARD */
+        .workshop-card {
+            background: rgba(20, 0, 0, 0.7);
+            padding: 18px;
+            margin-top: 18px;
+            border-radius: 10px;
+            border-left: 4px solid #ff0033;
+            box-shadow: 0 0 20px rgba(255, 0, 51, 0.18);
+        }
+
+        .workshop-card h3 {
+            color: #ff4d6d;
+            text-shadow: 0 0 12px #ff4d6d;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #ff4d6d;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 0, 51, 0.2);
+            text-shadow: 0 0 12px #ff0033;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>ONLINE WORKSHOP PLATFORM – CYBERPUNK RED</header>
+
+    <nav>
+        <a href="#admin">Admin Panel</a>
+        <a href="#user">User Dashboard</a>
+    </nav>
+
+    <!-- ADMIN PANEL -->
+    <div class="container" id="admin">
+        <h2>Admin Panel</h2>
+
+        <label>Workshop Title:</label>
+        <input id="title" type="text" placeholder="Enter workshop title">
+
+        <label>Date & Time:</label>
+        <input id="datetime" type="datetime-local">
+
+        <label>Upload Training Material (PDF):</label>
+        <input id="file" type="file" accept="application/pdf">
+
+        <label>Description:</label>
+        <textarea id="desc" rows="3"></textarea>
+
+        <button class="cyber-btn" onclick="createWorkshop()">Create Workshop</button>
+    </div>
+
+    <!-- USER DASHBOARD -->
+    <div class="container" id="user">
+        <h2>User Dashboard</h2>
+        <div id="workshopList"></div>
+    </div>
+
+    <footer>
+        © 2025 Online Workshop Platform | Designed by Kavya
+    </footer>
+
+    <script>
+        function createWorkshop() {
+            let title = document.getElementById("title").value;
+            let datetime = document.getElementById("datetime").value.replace("T", " ");
+            let desc = document.getElementById("desc").value;
+            let file = document.getElementById("file").files[0];
+
+            if (!title || !datetime || !desc || !file) {
+                alert("Please fill all fields!");
+                return;
+            }
+
+            let filePath = "pdf/" + file.name;
+
+            let template = `
+                <div class="workshop-card">
+                    <h3>${title}</h3>
+                    <p><b>Date & Time:</b> ${datetime}</p>
+                    <p>${desc}</p>
+
+                    <button class="cyber-btn" onclick="alert('Registration Successful!')">Register</button>
+                    <button class="cyber-btn" onclick="window.open('${filePath}', '_blank')">View Materials</button>
+                </div>
+            `;
+
+            document.getElementById("workshopList").innerHTML += template;
+        }
+    </script>
+
+</body>
+</html>
